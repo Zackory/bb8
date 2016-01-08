@@ -25,6 +25,7 @@ class Motor:
             Motor.gpio.set_servo_pulsewidth(self.port1, 2000)
 
     def stop(self):
+        Motor.gpio.set_servo_pulsewidth(self.port1, 0)
         Motor.gpio.set_PWM_dutycycle(self.port2, 0)
 
     def stopGpio(self):
