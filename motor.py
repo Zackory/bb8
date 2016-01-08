@@ -10,20 +10,20 @@ class Motor:
             Motor.gpio = pigpio.pi()
         self.port1 = port1
         self.port2 = port2
-        self.isForward = True
+        self.prevSpeed = 0
         # Set frequency and pulse width
         Motor.gpio.set_PWM_frequency(port1, 100)
         Motor.gpio.set_PWM_frequency(port2, 100)
         Motor.gpio.set_servo_pulsewidth(port1, 0)
         Motor.gpio.set_servo_pulsewidth(port2, 0)
 
-    # Speed between 0-255
+    # Speed between -1.0 and 1.0
     def setSpeed(self, speed):
-        Motor.gpio.set_PWM_dutycycle(self.port2 if self.isForward else self.port1, speed)
-
-    def setDirection(self, isForward):
-        self.isForward = isForward
-        self.stop()
+        # Actual speeds are between -255 and 255 (scale accordingly)
+        if (speed < 0 < self.prevSpeed) or (self.prevSpeed < 0 < speed):
+            # We have flipped directions, so set previous port to 0
+            Motor.gpio.set_PWM_dutycycle(self.port2 if self.prevSpeed >= 0 else self.port1, 0)
+        Motor.gpio.set_PWM_dutycycle(self.port2 if speed >= 0 else self.port1, int(abs(speed*255)))
 
     def stop(self):
         Motor.gpio.set_PWM_dutycycle(self.port1, 0)

@@ -42,7 +42,8 @@ class Joystick:
             self.RThumbX = (1, 2)
             self.RThumbY = (1, 3)
 
-    def processEvents(self):
+    @staticmethod
+    def processEvents():
         # Process all events from pygame
         for _ in pygame.event.get():
             pass
