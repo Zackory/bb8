@@ -8,7 +8,7 @@ import numpy as np
 joy = joystick.Joystick(0)
 
 motor1 = motor.Motor(25, 18)
-# motor2 = motor.Motor(23, 24)
+motor2 = motor.Motor(23, 24)
 
 done = False
 while not done:
@@ -22,6 +22,12 @@ while not done:
     else:
         motor1.stop()
 
+    RThumbX = joy.get(joy.RThumbX)
+    if RThumbX <= -0.1 or RThumbX >= 0.1:
+        motor2.setSpeed(RThumbX)
+    else:
+        motor2.stop()
+
     time.sleep(0.05)
 
 # for i in np.arange(-1.0, 1.0, 0.05):
@@ -31,5 +37,5 @@ while not done:
 joy.quitJoystick()
 
 motor1.stop()
-# motor2.stop()
+motor2.stop()
 motor1.stopGpio()
