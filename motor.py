@@ -23,6 +23,7 @@ class Motor:
         if (speed < 0 < self.prevSpeed) or (self.prevSpeed < 0 < speed):
             # We have flipped directions, so set previous port to 0
             Motor.gpio.set_PWM_dutycycle(self.port2 if self.prevSpeed >= 0 else self.port1, 0)
+        self.prevSpeed = speed
         Motor.gpio.set_PWM_dutycycle(self.port2 if speed >= 0 else self.port1, int(abs(speed*255)))
 
     def stop(self):

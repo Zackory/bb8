@@ -3,6 +3,7 @@ __author__ = 'zackory'
 import time
 import motor
 import joystick
+import numpy as np
 
 joy = joystick.Joystick(0)
 
@@ -19,9 +20,11 @@ while not done:
     if RThumbY <= -0.1 or RThumbY >= 0.1:
         motor1.setSpeed(RThumbY)
     else:
-        motor1.setSpeed(0)
+        motor1.stop()
 
-# for i in xrange(-255, 260, 5):
+    time.sleep(0.05)
+
+# for i in np.arange(-1.0, 1.0, 0.05):
 #     motor1.setSpeed(i)
 #     time.sleep(0.2)
 
