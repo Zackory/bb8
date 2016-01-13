@@ -16,19 +16,12 @@ class Servo:
 
     # Speed between -1.0 and 1.0
     def setSpeed(self, speed):
-        # Determine direction of motion
-        if speed < 0: # backwards
-            Servo.gpio.set_servo_pulsewidth(self.port, 1000)
-        elif speed > 0: # forwards
-            Servo.gpio.set_servo_pulsewidth(self.port, 2000)
-        else: # stopped
-            Servo.gpio.set_servo_pulsewidth(self.port, 0)
-
-        # Actual speeds are between -255 and 255 (scale accordingly)
-        Servo.gpio.set_PWM_dutycycle(self.port, int(abs(speed*255)))
+        # Set servo pulse width to adjust speed of continuous servo
+        # Safe range (1000-2000), <1500 backwards, >1500 forwards, 1500 stopped (max range of 500-2500)
+        Servo.gpio.set_servo_pulsewidth(self.port, 0 if speed == 0 else 1500 + speed*500)
 
     def stop(self):
-        Servo.gpio.set_PWM_dutycycle(self.port, 0)
+        Servo.gpio.set_servo_pulsewidth(self.port, 0)
 
     @staticmethod
     def stopGpio():

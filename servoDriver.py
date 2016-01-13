@@ -49,7 +49,10 @@ while not done:
 #     servo1.setSpeed(i)
 #     time.sleep(0.2)
 
-joy.quitJoystick()
+try:
+    joy.quitJoystick()
+except:
+    pass
 
 servo1.stop()
 servo2.stop()
