@@ -20,6 +20,12 @@ class Servo:
         # Safe range (1000-2000), <1500 backwards, >1500 forwards, 1500 stopped (max range of 500-2500)
         Servo.gpio.set_servo_pulsewidth(self.port, 0 if speed == 0 else 1500 + speed*500)
 
+    # Position between -1.0 and 1.0
+    def setPosition(self, position):
+        # Set servo pulse width to adjust position of fixed rotation servo
+        # 1500 center point (max range 500-2500, safe range 1000-2000)
+        Servo.gpio.set_servo_pulsewidth(self.port, 1500 + position*500)
+
     def stop(self):
         Servo.gpio.set_servo_pulsewidth(self.port, 0)
 

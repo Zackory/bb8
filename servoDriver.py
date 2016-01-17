@@ -10,6 +10,7 @@ servo1 = servo.Servo(17)
 servo2 = servo.Servo(18)
 servo3 = servo.Servo(22)
 servo4 = servo.Servo(23)
+mastServo = servo.Servo(24)
 
 done = False
 while not done:
@@ -17,6 +18,13 @@ while not done:
     done = joy.get(joy.RBumper)
 
     # Update servo speed based on joystick
+
+    LThumbY = joy.get(joy.LThumbY)
+    if LThumbY <= -0.1 or LThumbY >= 0.1:
+        # Update head position by moving center mast
+        mastServo.setPosition(LThumbY)
+    else:
+        mastServo.setPosition(0)
 
     LThumbX = joy.get(joy.LThumbX)
     if LThumbX <= -0.1 or LThumbX >= 0.1:
@@ -58,4 +66,5 @@ servo1.stop()
 servo2.stop()
 servo3.stop()
 servo4.stop()
+mastServo.stop()
 servo1.stopGpio()
