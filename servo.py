@@ -5,11 +5,12 @@ import pigpio
 class Servo:
     gpio = None
 
-    def __init__(self, port):
+    def __init__(self, port, positionRange=500):
         if Servo.gpio is None:
             print 'Creating Servo GPIO'
             Servo.gpio = pigpio.pi()
         self.port = port
+        self.positionRange = positionRange
         # Set frequency and pulse width
         Servo.gpio.set_PWM_frequency(port, 100)
         Servo.gpio.set_servo_pulsewidth(port, 0)
@@ -24,7 +25,7 @@ class Servo:
     def setPosition(self, position):
         # Set servo pulse width to adjust position of fixed rotation servo
         # 1500 center point (max range 500-2500, safe range 1000-2000)
-        Servo.gpio.set_servo_pulsewidth(self.port, 1500 + position*500)
+        Servo.gpio.set_servo_pulsewidth(self.port, 1500 + position*self.positionRange)
 
     def stop(self):
         Servo.gpio.set_servo_pulsewidth(self.port, 0)
